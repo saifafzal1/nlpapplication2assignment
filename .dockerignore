@@ -1,0 +1,48 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation (not needed in Docker)
+docs/
+*.md
+!README.md
+
+# Screenshots (not needed in Docker)
+screenshots/
+
+# Tests (not needed in Docker)
+tests/
+
+# Data and models (download at runtime)
+data/
+models/
+.cache/
+
+# Logs
+*.log
+logs/
+
+# Temporary
+*.tmp
+.DS_Store
