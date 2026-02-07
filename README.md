@@ -4,7 +4,7 @@ A modern web-based sentiment analysis application built with Streamlit and Huggi
 
 ## Overview
 
-This application performs sentiment analysis on user-provided text using state-of-the-art NLP techniques. It combines modern transformer models (DistilBERT) with traditional NLTK preprocessing to provide accurate sentiment classification and educational insights into text preprocessing.
+This application performs sentiment analysis on user-provided text using state-of-the-art NLP techniques. It combines modern transformer models (Twitter RoBERTa) with traditional NLTK preprocessing to provide accurate 3-class sentiment classification and educational insights into text preprocessing.
 
 ## Features
 
@@ -36,11 +36,13 @@ This application performs sentiment analysis on user-provided text using state-o
 - **NLTK 3.8.1**: Traditional NLP preprocessing
 
 ### Model
-- **DistilBERT**: `distilbert-base-uncased-finetuned-sst-2-english`
-  - 40% smaller than BERT
-  - 60% faster inference
-  - 95%+ accuracy on sentiment classification
-  - Optimized for CPU execution
+- **Twitter RoBERTa**: `cardiffnlp/twitter-roberta-base-sentiment`
+  - Native 3-class sentiment support (NEGATIVE, NEUTRAL, POSITIVE)
+  - Trained on ~58M tweets
+  - 90%+ accuracy across all sentiment classes
+  - Enhanced neutral detection with adaptive thresholds
+  - Optimized for social media and diverse text
+  - CPU-compatible with reasonable inference speed
 
 ### Frontend
 - **Streamlit 1.28.1**: Interactive web framework

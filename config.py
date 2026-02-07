@@ -10,20 +10,25 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Model Configuration
+# Using Twitter RoBERTa fine-tuned for 3-class sentiment (NEGATIVE, NEUTRAL, POSITIVE)
+# This model natively supports neutral sentiment classification
+# Previous model: distilbert-base-uncased-finetuned-sst-2-english (binary only)
 MODEL_NAME = os.getenv(
     "MODEL_NAME",
-    "distilbert-base-uncased-finetuned-sst-2-english"
+    "cardiffnlp/twitter-roberta-base-sentiment"
 )
 MODEL_CACHE_DIR = os.getenv("MODEL_CACHE_DIR", "./models")
-
-# Alternative 3-class sentiment model (positive, negative, neutral)
-# Uncomment to use 3-class classification instead of binary
-# MODEL_NAME = "cardiffnlp/twitter-roberta-base-sentiment"
 
 # Application Configuration
 MAX_TEXT_LENGTH = 512  # Maximum number of tokens for transformer models
 BATCH_SIZE = 32
-CONFIDENCE_THRESHOLD = 0.60  # Threshold for neutral classification in binary models
+
+# Neutral Detection Thresholds (for enhanced neutral classification)
+# The model uses these thresholds to determine when to classify as NEUTRAL:
+# - If top prediction confidence < 80% AND neutral score > 20%, choose NEUTRAL
+# - This ensures texts with significant neutral probability are properly classified
+CONFIDENCE_THRESHOLD = 0.80  # Top prediction must be > 80% confident to override neutral
+NEUTRAL_THRESHOLD = 0.20     # Neutral score must be > 20% to be considered
 
 # File Upload Configuration
 MAX_FILE_SIZE_MB = 10

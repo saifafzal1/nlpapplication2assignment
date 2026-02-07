@@ -1,7 +1,7 @@
 """
 Sentiment Analysis Module
 This module provides sentiment analysis functionality using Hugging Face transformers.
-Uses pre-trained DistilBERT model for accurate sentiment prediction.
+Uses pre-trained Twitter RoBERTa model for 3-class sentiment prediction (NEGATIVE, NEUTRAL, POSITIVE).
 """
 
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
@@ -14,7 +14,7 @@ warnings.filterwarnings('ignore')
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import MODEL_NAME, MAX_TEXT_LENGTH, CONFIDENCE_THRESHOLD
+from config import MODEL_NAME, MAX_TEXT_LENGTH, CONFIDENCE_THRESHOLD, NEUTRAL_THRESHOLD
 
 
 class SentimentAnalyzer:
@@ -22,8 +22,9 @@ class SentimentAnalyzer:
     A class for performing sentiment analysis using transformer models.
 
     This class uses Hugging Face's transformers library to load pre-trained
-    models (default: DistilBERT) and perform sentiment classification on text.
+    models (default: Twitter RoBERTa) and perform sentiment classification on text.
     It provides both simple and detailed sentiment analysis with confidence scores.
+    Supports 3-class sentiment: NEGATIVE, NEUTRAL, and POSITIVE.
     """
 
     def __init__(self, model_name: str = None):
@@ -41,7 +42,8 @@ class SentimentAnalyzer:
         """
         self.model_name = model_name or MODEL_NAME
         self.max_length = MAX_TEXT_LENGTH
-        self.threshold = CONFIDENCE_THRESHOLD
+        self.confidence_threshold = CONFIDENCE_THRESHOLD
+        self.neutral_threshold = NEUTRAL_THRESHOLD
         self.classifier = None
         self.tokenizer = None
         self.model = None
@@ -76,7 +78,7 @@ class SentimentAnalyzer:
                 device=-1  # Use CPU (-1), change to 0 for GPU
             )
 
-            print(f"Model loaded successfully!")
+            print("Model loaded successfully!")
 
         except Exception as e:
             print(f"Error loading model: {e}")
@@ -131,11 +133,26 @@ class SentimentAnalyzer:
             # Get all sentiment scores
             all_scores = self._get_all_scores(text)
 
-            # For binary models (POSITIVE/NEGATIVE only), determine NEUTRAL
-            if label in ['POSITIVE', 'NEGATIVE']:
-                # If confidence is below threshold, classify as neutral
-                if score < self.threshold:
+            # Normalize label (some models use different formats)
+            # twitter-roberta-base-sentiment uses: LABEL_0 (NEGATIVE), LABEL_1 (NEUTRAL), LABEL_2 (POSITIVE)
+            label_mapping = {
+                'LABEL_0': 'NEGATIVE',
+                'LABEL_1': 'NEUTRAL',
+                'LABEL_2': 'POSITIVE'
+            }
+            label = label_mapping.get(label, label)
+
+            # Enhanced neutral detection logic
+            # Choose NEUTRAL if:
+            # 1. NEUTRAL has highest probability, OR
+            # 2. Top prediction confidence < threshold AND neutral score > threshold
+            # This ensures texts with significant neutral probability are classified as neutral
+            if 'NEUTRAL' in all_scores:
+                neutral_score = all_scores.get('NEUTRAL', 0.0)
+                # If neutral is highest OR (top prediction not confident AND neutral significant)
+                if neutral_score > score or (score < self.confidence_threshold and neutral_score > self.neutral_threshold):
                     label = 'NEUTRAL'
+                    score = neutral_score
 
             return {
                 'label': label,
@@ -196,23 +213,24 @@ class SentimentAnalyzer:
             scores = {}
             for idx, prob in enumerate(probs):
                 label = label_mapping[idx].upper()
-                # Normalize label names
-                if 'POS' in label:
-                    scores['POSITIVE'] = prob
-                elif 'NEG' in label:
+                # Normalize label names for different model formats
+                # twitter-roberta uses LABEL_0, LABEL_1, LABEL_2
+                if label == 'LABEL_0' or 'NEG' in label:
                     scores['NEGATIVE'] = prob
-                elif 'NEU' in label:
+                elif label == 'LABEL_1' or 'NEU' in label:
                     scores['NEUTRAL'] = prob
+                elif label == 'LABEL_2' or 'POS' in label:
+                    scores['POSITIVE'] = prob
                 else:
                     scores[label] = prob
 
-            # For binary models, calculate neutral as average
-            if 'NEUTRAL' not in scores and 'POSITIVE' in scores and 'NEGATIVE' in scores:
-                max_score = max(scores['POSITIVE'], scores['NEGATIVE'])
-                if max_score < self.threshold:
-                    scores['NEUTRAL'] = 1.0 - max_score
-                else:
-                    scores['NEUTRAL'] = 0.0
+            # Ensure all three sentiment classes are present
+            if 'NEGATIVE' not in scores:
+                scores['NEGATIVE'] = 0.0
+            if 'NEUTRAL' not in scores:
+                scores['NEUTRAL'] = 0.0
+            if 'POSITIVE' not in scores:
+                scores['POSITIVE'] = 0.0
 
             return scores
 
