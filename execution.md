@@ -262,10 +262,10 @@ python -m streamlit run app.py
 
 ### First Run Experience
 
-**Initial Launch (10-15 seconds):**
-- DistilBERT model downloads automatically (~260MB)
+**Initial Launch (30-60 seconds):**
+- Twitter RoBERTa model downloads automatically (~500MB)
 - Model is cached in `~/.cache/huggingface/`
-- Application starts after download completes
+- First sentiment analysis triggers the download
 - Browser opens automatically at `http://localhost:8501`
 
 **Subsequent Launches (2-3 seconds):**
@@ -277,6 +277,109 @@ python -m streamlit run app.py
 1. Terminal shows: "You can now view your Streamlit app in your browser"
 2. Browser opens to the Sentiment Analysis Application
 3. Ready to analyze text!
+
+---
+
+## Testing the Application with Example Texts
+
+Once the application is running, you can test it with the following example texts. Simply copy and paste these into the text input area and click "Analyze Sentiment".
+
+### Positive Sentiment Examples
+
+**Example 1: Strong Positive**
+```
+I absolutely love this product! It exceeded all my expectations and the quality is outstanding. Highly recommended!
+```
+Expected Result: POSITIVE (95-99% confidence)
+
+**Example 2: Moderate Positive**
+```
+This is a great product. I'm very satisfied with my purchase and would buy it again.
+```
+Expected Result: POSITIVE (85-95% confidence)
+
+**Example 3: Enthusiastic Positive**
+```
+Amazing experience! The service was fantastic and the team was incredibly helpful. Five stars!
+```
+Expected Result: POSITIVE (98-99% confidence)
+
+### Negative Sentiment Examples
+
+**Example 1: Strong Negative**
+```
+This is terrible. I hate it and it's a complete waste of money. Very disappointed and frustrated.
+```
+Expected Result: NEGATIVE (95-99% confidence)
+
+**Example 2: Moderate Negative**
+```
+Not satisfied with this purchase. The quality is poor and it doesn't work as advertised.
+```
+Expected Result: NEGATIVE (85-95% confidence)
+
+**Example 3: Disappointed Negative**
+```
+Awful experience. The product broke after one day and customer service was unhelpful. Never again!
+```
+Expected Result: NEGATIVE (95-99% confidence)
+
+### Neutral Sentiment Examples
+
+**Example 1: Factual Statement**
+```
+The product arrived on time. It comes in a blue box and includes a user manual.
+```
+Expected Result: NEUTRAL (20-50% confidence)
+
+**Example 2: Balanced Opinion**
+```
+It's okay. Nothing special but not bad either. The product works as expected.
+```
+Expected Result: NEUTRAL (25-40% confidence)
+
+**Example 3: Mixed Feelings**
+```
+I have mixed feelings about this. Some features are good while others could be better.
+```
+Expected Result: NEUTRAL (30-45% confidence)
+
+**Example 4: Neutral Description**
+```
+The service was fine. Everything was standard and met basic expectations.
+```
+Expected Result: NEUTRAL (20-35% confidence)
+
+**Example 5: Uncertain Opinion**
+```
+I'm not sure how I feel about this purchase. It's acceptable but not impressive.
+```
+Expected Result: NEUTRAL (25-40% confidence)
+
+### Testing File Upload Feature
+
+Sample text files are provided in the `sample_texts/` directory:
+- `positive.txt` - Contains positive sentiment examples
+- `negative.txt` - Contains negative sentiment examples
+- `neutral.txt` - Contains neutral sentiment examples
+
+You can upload these files to test the file upload functionality.
+
+### Understanding the Results
+
+When you analyze text, the application displays:
+
+1. **Sentiment Label**: POSITIVE, NEGATIVE, or NEUTRAL
+2. **Confidence Score**: Percentage showing model's confidence (0-100%)
+3. **Bar Chart**: Visual representation of scores for all three sentiments
+4. **Pie Chart**: Distribution of sentiment probabilities
+5. **Detailed Scores**: Exact probabilities for each sentiment class
+
+**Note on Neutral Detection**:
+The application uses Twitter RoBERTa model with enhanced neutral detection logic:
+- Texts with neutral score > 20% and top prediction < 80% are classified as NEUTRAL
+- This ensures ambiguous or factual statements are properly identified as neutral
+- The model achieves high accuracy across all three sentiment classes
 
 ---
 
