@@ -252,11 +252,6 @@ streamlit run app.py --server.port 8502
 - [docs/literature_survey.md](docs/literature_survey.md) - Literature survey on multimodal sentiment analysis
 
 
-
-## License
-
-This project is created for academic purposes as part of BITS Pilani M.Tech AIML coursework.
-
 ## Acknowledgments
 
 - Hugging Face for providing pre-trained transformer models
@@ -264,10 +259,6 @@ This project is created for academic purposes as part of BITS Pilani M.Tech AIML
 - Streamlit for the excellent web framework
 - BITS Pilani WILP for the opportunity to learn
 
-## Support
-
-For questions or issues related to this assignment, contact:
-- Course LF: Vasugi I (vasugii@wilp.bits-pilani.ac.in)
 
 ## Repository
 
