@@ -224,7 +224,7 @@ streamlit run app.py --server.port 8502
 ## Assignment Components
 
 ### PART-A
-- **Task A**: Web interface with sentiment analysis (✓ Complete)
+- **Task A**: Web interface with sentiment analysis
   - Text input and file upload functionality
   - Sentiment visualization with charts
   - NLP model integration (DistilBERT)
@@ -244,12 +244,6 @@ streamlit run app.py --server.port 8502
 - [docs/task_b_enhancement_plan.md](docs/task_b_enhancement_plan.md) - Real-time feedback enhancement plan
 - [docs/literature_survey.md](docs/literature_survey.md) - Literature survey on multimodal sentiment analysis
 
-## Contributors
-
-BITS Pilani M.Tech AIML Student
-- Course: NLP Applications (S1-25_AIMLCZG519)
-- Assignment: 2 - PS-9
-- Instructor: Vasugi I
 
 ## License
 
@@ -260,12 +254,9 @@ This project is created for academic purposes as part of BITS Pilani M.Tech AIML
 - Hugging Face for providing pre-trained transformer models
 - NLTK team for comprehensive NLP tools
 - Streamlit for the excellent web framework
-- BITS Pilani WILP for the opportunity to learn
 
-## Support
 
-For questions or issues related to this assignment, contact:
-- Course LF: Vasugi I (vasugii@wilp.bits-pilani.ac.in)
+
 
 ## Repository
 
