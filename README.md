@@ -72,7 +72,6 @@ nlpapplication2assignment/
 ├── Dockerfile                    # Docker container configuration
 ├── README.md                     # This file
 ├── execution.md                  # Detailed execution instructions
-├── submission.md                 # Submission guidelines
 ├── src/                          # Source code modules
 │   ├── __init__.py
 │   ├── sentiment_analyzer.py    # Sentiment analysis logic
