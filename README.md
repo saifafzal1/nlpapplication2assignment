@@ -1,3 +1,12 @@
+## Contributors
+**Group 56**
+1. **2024aa05019--Gowtham Potluri--100%**
+2. **2024aa05546--Saif Afzal--100%**
+3. **2024aa05018--SAI SAMEERA VOLETI  --100%**
+4. **2024aa05506--SANKALP PATNAIK .--100%**
+5. **2024aa05199--SHAH ABHISHEK BIPINCHANDRA --100%**
+- Assignment: 2 - PS-9
+
 # Sentiment Analysis Application
 
 A modern web-based sentiment analysis application built with Streamlit and Hugging Face Transformers for BITS Pilani M.Tech AIML - NLP Applications Assignment 2 (PS-9).
@@ -224,7 +233,7 @@ streamlit run app.py --server.port 8502
 ## Assignment Components
 
 ### PART-A
-- **Task A**: Web interface with sentiment analysis (✓ Complete)
+- **Task A**: Web interface with sentiment analysis
   - Text input and file upload functionality
   - Sentiment visualization with charts
   - NLP model integration (DistilBERT)
@@ -239,17 +248,11 @@ streamlit run app.py --server.port 8502
 ## Documentation
 
 - [execution.md](execution.md) - Step-by-step execution instructions for fresh systems
-- [submission.md](submission.md) - Submission guidelines and checklist
 - [docs/report.md](docs/report.md) - Implementation report with design choices
 - [docs/task_b_enhancement_plan.md](docs/task_b_enhancement_plan.md) - Real-time feedback enhancement plan
 - [docs/literature_survey.md](docs/literature_survey.md) - Literature survey on multimodal sentiment analysis
 
-## Contributors
 
-BITS Pilani M.Tech AIML Student
-- Course: NLP Applications (S1-25_AIMLCZG519)
-- Assignment: 2 - PS-9
-- Instructor: Vasugi I
 
 ## License
 
@@ -269,7 +272,7 @@ For questions or issues related to this assignment, contact:
 
 ## Repository
 
-GitHub: https://github.com/yourusername/nlpapplication2assignment
+GitHub: https://github.com/saifafzal1/nlpapplication2assignment
 
 ---
 
